@@ -72,7 +72,7 @@
             font-size: 16px;
         }
         
-        .form-group input {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 16px;
             border: 2px solid #ddd;
@@ -81,7 +81,7 @@
             transition: all 0.3s ease;
         }
         
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: #3498db;
             outline: none;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
@@ -375,6 +375,18 @@
             border-radius: 50%;
         }
         
+        .hw-item, .schedule-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hw-item:last-child, .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -514,7 +526,7 @@
             </div>
 
             <!-- Панель управления для учителя -->
-            <div id="teacherControls" class="admin-panel">
+            <div id="teacherControls" class="admin-panel hidden">
                 <h3><i class="fas fa-chalkboard-teacher"></i> Панель управления</h3>
                 <div class="control-buttons">
                     <button class="control-btn" onclick="showModal('addUserModal')">
@@ -841,6 +853,7 @@
                 loadStudentGrades();
                 loadStudentHomework();
                 loadStudentSchedule();
+                calculateStudentStats();
             }
         }
 
@@ -919,6 +932,45 @@
                 });
             } else {
                 scheduleContent.innerHTML = '<li>Расписание на завтра не найдено</li>';
+            }
+        }
+
+        // Расчет статистики для ученика
+        function calculateStudentStats() {
+            if (currentUser.role !== 'student') return;
+            
+            if (grades[currentUser.currentClass] && grades[currentUser.currentClass][currentUser.username]) {
+                const userGrades = grades[currentUser.currentClass][currentUser.username];
+                let total = 0;
+                let subjectStats = {};
+                
+                userGrades.forEach(grade => {
+                    total += grade.value;
+                    if (!subjectStats[grade.subject]) {
+                        subjectStats[grade.subject] = { sum: 0, count: 0 };
+                    }
+                    subjectStats[grade.subject].sum += grade.value;
+                    subjectStats[grade.subject].count += 1;
+                });
+                
+                const average = total / userGrades.length;
+                document.getElementById('averageGrade').textContent = average.toFixed(1);
+                
+                // Находим лучший предмет
+                let bestSubject = '';
+                let bestAverage = 0;
+                
+                for (const subject in subjectStats) {
+                    const avg = subjectStats[subject].sum / subjectStats[subject].count;
+                    if (avg > bestAverage) {
+                        bestAverage = avg;
+                        bestSubject = subject;
+                    }
+                }
+                
+                if (bestSubject) {
+                    document.getElementById('bestSubject').textContent = `${bestSubject} (${bestAverage.toFixed(1)})`;
+                }
             }
         }
 
@@ -1056,7 +1108,7 @@
                     
                     schedule[className][day].forEach((lesson, index) => {
                         const lessonItem = document.createElement('div');
-                        lessonItem.className = 'user-item';
+                        lessonItem.className = 'schedule-item';
                         lessonItem.innerHTML = `
                             <div>${lesson.lesson} (${lesson.time})</div>
                             <div class="lesson-actions">
@@ -1135,7 +1187,7 @@
                 
                 homework[className].forEach((hw, index) => {
                     const hwItem = document.createElement('div');
-                    hwItem.className = 'user-item';
+                    hwItem.className = 'hw-item';
                     hwItem.innerHTML = `
                         <div>${hw.subject}: ${hw.task} (до ${hw.deadline})</div>
                         <div class="lesson-actions">
