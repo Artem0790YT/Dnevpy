@@ -1,1313 +1,1035 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дневник.ру - Полная версия</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .login-form {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .logo {
-            margin-bottom: 30px;
-        }
-        
-        .logo h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #2c3e50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .logo i {
-            font-size: 40px;
-            color: #3498db;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-        
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .main-page {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 1200px;
-            min-height: 90vh;
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f1f2f6;
-        }
-        
-        .user-welcome {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid #3498db;
-        }
-        
-        .logout-btn {
-            padding: 10px 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .logout-btn:hover {
-            background: #c0392b;
-        }
-        
-        .admin-panel {
-            background: linear-gradient(135deg, #00cec9, #00b894);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
-        }
-        
-        .admin-panel h3 {
-            margin-bottom: 20px;
-            color: white;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .control-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .control-btn {
-            padding: 14px 22px;
-            background: linear-gradient(135deg, #fdcb6e, #feca57);
-            color: #2d3436;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            font-size: 15px;
-        }
-        
-        .control-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .dashboard-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .dashboard-card h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .grades-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .grade {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 700;
-            font-size: 16px;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .grade:hover {
-            transform: scale(1.1);
-        }
-        
-        .grade-5 {
-            background: linear-gradient(135deg, #00b894, #00a382);
-        }
-        
-        .grade-4 {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-        }
-        
-        .grade-3 {
-            background: linear-gradient(135deg, #fdcb6e, #feca57);
-        }
-        
-        .grade-2 {
-            background: linear-gradient(135deg, #e17055, #d63031);
-        }
-        
-        .schedule-list {
-            list-style: none;
-        }
-        
-        .schedule-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .schedule-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .lesson-actions {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .edit-btn {
-            background: #fdcb6e;
-            color: #2d3436;
-        }
-        
-        .delete-btn {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            cursor: pointer;
-            color: #7f8c8d;
-            transition: color 0.3s ease;
-        }
-        
-        .close:hover {
-            color: #e74c3c;
-        }
-        
-        .user-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-        }
-        
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .user-item:last-child {
-            border-bottom: none;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .user-avatar-small {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-        
-        .hw-item, .schedule-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .hw-item:last-child, .schedule-item:last-child {
-            border-bottom: none;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .login-form {
-                padding: 25px;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .control-buttons {
-                flex-direction: column;
-            }
-            
-            .control-btn {
-                width: 100%;
-            }
-            
-            .main-page {
-                padding: 20px;
-            }
-            
-            .admin-panel {
-                padding: 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 24px;
-            }
-            
-            .control-btn {
-                padding: 12px;
-                font-size: 14px;
-            }
-            
-            .user-welcome {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            background: #4CAF50;
-            color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .notification.error {
-            background: #f44336;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Дневник.ру — адаптивная (Full / Lite)</title>
+
+<!-- -------------------------
+     СТИЛИ. Полная версия + упрощённая
+     ------------------------- -->
+<style>
+  :root{
+    --accent1: #3498db;
+    --accent2: #6a11cb;
+    --accent3: #2575fc;
+    --good: #2ecc71;
+    --bad: #e74c3c;
+    --bg: #f5f7fb;
+    --text: #222;
+  }
+  html,body{height:100%;margin:0;font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;color:var(--text);background:var(--bg);}
+
+  /* ---------- стартовый экран выбора версии ---------- */
+  #startScreen{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.95));
+  }
+  #startScreen h1{font-size:28px;margin-bottom:6px;}
+  #startScreen p{margin:8px 0 20px;color:#555;}
+  .chooseBtns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .btn{
+    padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  }
+  .btn-full{background:linear-gradient(135deg,var(--accent2),var(--accent3));color:#fff;}
+  .btn-lite{background:#fff;border:1px solid #e3e6ea;color:#333;}
+  .muted{color:#6b6f76;font-size:14px;margin-top:8px}
+
+  /* ---------- Общие стили для приложений ---------- */
+  .app{display:none;min-height:100vh;}
+  header.app-header{
+    display:flex;align-items:center;justify-content:space-between;padding:12px 20px;color:#fff;
+    background:linear-gradient(135deg,var(--accent2),var(--accent3));
+  }
+  header.app-header .left{display:flex;align-items:center;gap:12px}
+  header.app-header .logo{font-weight:700;font-size:18px}
+  header.app-header .controls{display:flex;gap:8px;align-items:center}
+  .switch-btn{background:#fff;color:#333;padding:6px 10px;border-radius:6px;border:none;cursor:pointer}
+  .container{max-width:1200px;margin:20px auto;padding:0 18px}
+
+  /* ---------- Полная версия (rich) ---------- */
+  .full .top-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:#ffffff;border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(21,29,41,0.06);margin-bottom:18px}
+  .card h2{margin:0 0 10px;font-size:18px;color:#263238}
+  .nav-tabs{display:flex;gap:8px;margin:12px 0 18px;flex-wrap:wrap}
+  .nav-tabs .tab{padding:10px 14px;border-radius:8px;background:linear-gradient(180deg,#fff,#f8fbff);cursor:pointer;border:1px solid #e8eef8}
+  .nav-tabs .tab.active{border-color:var(--accent1);box-shadow:0 6px 20px rgba(52,152,219,0.12);color:var(--accent1);font-weight:700}
+  .controls-row{display:flex;gap:10px;align-items:center}
+  .user-info{display:flex;gap:10px;align-items:center;color:#fff}
+  .user-info img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.15)}
+  .btn-action{background:var(--accent1);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+  .btn-danger{background:var(--bad);color:#fff}
+
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:10px;border-bottom:1px solid #f1f4f8;text-align:left}
+  th{background:#fbfdff;font-weight:700;color:#3b4a56}
+
+  .grade{display:inline-block;padding:6px 10px;border-radius:999px;color:#fff;font-weight:700}
+  .grade.excellent{background:var(--good)}
+  .grade.good{background:var(--accent1)}
+  .grade.satisfactory{background:#f39c12}
+  .grade.bad{background:var(--bad)}
+
+  .homework-item{padding:12px;border-left:6px solid var(--accent1);background:#fbfdff;margin-bottom:12px;border-radius:6px}
+  .homework-date{color:#6e767d;font-size:13px;margin-top:6px}
+
+  /* модалки простой стиль */
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9999}
+  .modal .modal-content{background:#fff;padding:18px;border-radius:10px;max-width:520px;width:100%}
+  .modal .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .modal label{display:block;margin:8px 0 6px;font-weight:600}
+  .form-group input, .form-group select, .form-group textarea{width:100%;padding:10px;border:1px solid #e6edf3;border-radius:8px;font-size:14px}
+
+  /* ---------- Упрощённая (lite) версия ---------- */
+  .lite header.app-header{background:#333}
+  .lite .container{padding:10px}
+  .lite .card{background:transparent;box-shadow:none;padding:6px;border-radius:0}
+  .lite table{border:1px solid #ddd}
+  .lite th, .lite td{padding:8px;font-size:14px}
+  .lite .smallmuted{color:#666;font-size:13px}
+
+  /* адаптив */
+  @media (max-width:768px){
+    .nav-tabs{overflow:auto;padding-bottom:8px}
+    header.app-header{flex-direction:column;align-items:flex-start;gap:8px;padding:12px}
+  }
+</style>
 </head>
 <body>
-    <!-- Главная страница входа в Дневник.ру -->
-    <div class="container" id="loginContainer">
-        <div class="login-form fade-in" id="mainLoginPage">
-            <div class="logo">
-                <h1><i class="fas fa-book"></i> Дневник.ру</h1>
-            </div>
-            
-            <div class="form-group">
-                <label for="username">Логин:</label>
-                <input type="text" id="username" placeholder="Введите ваш логин">
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" placeholder="Введите ваш пароль">
-            </div>
-            
-            <button class="login-btn" onclick="login()">Войти</button>
-            
-            <p id="loginError" style="color: red; margin-top: 20px; text-align: center; font-size: 15px;"></p>
-            
-            <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 12px;">
-                <p style="font-weight: bold; margin-bottom: 15px; color: #2c3e50; text-align: center;">Тестовые аккаунты:</p>
-                <p style="margin: 10px 0;"><i class="fas fa-chalkboard-teacher" style="color: #e74c3c;"></i> Учитель: user / 123456789qq</p>
-                <p style="margin: 10px 0;"><i class="fas fa-user-graduate" style="color: #3498db;"></i> Ученик: balabaev / password123</p>
-                <p style="margin: 10px 0;"><i class="fas fa-user-graduate" style="color: #3498db;"></i> Ученик: ermakov / password123</p>
-            </div>
-        </div>
+
+<!-- ================= START: Start screen (choose version) ================= -->
+<div id="startScreen">
+  <h1>Добро пожаловать в Дневник.ру</h1>
+  <p id="recommendText">Выберите версию интерфейса — полная или упрощённая (рекомендуется для медленных сетей).</p>
+  <div class="chooseBtns">
+    <button class="btn btn-full" onclick="startApp('full')">Полная версия</button>
+    <button class="btn btn-lite" onclick="startApp('lite')">Упрощённая версия</button>
+  </div>
+  <div class="muted">Можно переключаться в любой момент через кнопку в шапке.</div>
+</div>
+<!-- ================= END: Start screen ================= -->
+
+<!-- ================= START: Full app ================= -->
+<div id="fullApp" class="app full" aria-hidden="true">
+  <header class="app-header">
+    <div class="left">
+      <div class="logo"><i class="fa-book" aria-hidden="true"></i> Дневник.ру — Полная</div>
     </div>
 
-    <!-- Главная страница Дневник.ру -->
-    <div class="container hidden" id="mainPage">
-        <div class="main-page fade-in">
-            <div class="header">
-                <div class="user-welcome">
-                    <img id="mainAvatar" src="" alt="User" class="user-avatar">
-                    <div>
-                        <h2 id="mainUsername">Добро пожаловать!</h2>
-                        <p id="mainRole"></p>
-                    </div>
-                </div>
-                <button class="logout-btn" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Выйти
-                </button>
-            </div>
-
-            <!-- Панель управления для учителя -->
-            <div id="teacherControls" class="admin-panel hidden">
-                <h3><i class="fas fa-chalkboard-teacher"></i> Панель управления</h3>
-                <div class="control-buttons">
-                    <button class="control-btn" onclick="showModal('addUserModal')">
-                        <i class="fas fa-user-plus"></i> Добавить пользователя
-                    </button>
-                    <button class="control-btn" onclick="showModal('scheduleModal')">
-                        <i class="fas fa-calendar-alt"></i> Управление расписанием
-                    </button>
-                    <button class="control-btn" onclick="showModal('homeworkModal')">
-                        <i class="fas fa-tasks"></i> Управление ДЗ
-                    </button>
-                    <button class="control-btn" onclick="showModal('gradesModal')">
-                        <i class="fas fa-star"></i> Управление оценками
-                    </button>
-                </div>
-            </div>
-            
-            <div class="dashboard">
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-star"></i> Последние оценки</h3>
-                    <div class="grades-container" id="gradesContainer">
-                        <!-- Оценки будут добавляться динамически -->
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-tasks"></i> Домашние задания</h3>
-                    <div id="homeworkContent">
-                        <!-- ДЗ будет добавляться динамически -->
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <h3><i class="fas fa-calendar-alt"></i> Расписание на завтра</h3>
-                    <ul class="schedule-list" id="scheduleContent">
-                        <!-- Расписание будет добавляться динамически -->
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="dashboard-card">
-                <h3><i class="fas fa-chart-line"></i> Успеваемость</h3>
-                <p>Средний балл: <strong id="averageGrade">4.5</strong></p>
-                <p>Лучший предмет: <strong id="bestSubject">Математика (4.8)</strong></p>
-                <p>Посещаемость: <strong id="attendance">98%</strong></p>
-            </div>
+    <div class="controls">
+      <div class="user-info">
+        <img id="fullAvatar" src="https://ui-avatars.com/api/?name=User&background=3498db&color=fff" alt="User">
+        <div style="color:#fff;text-align:right">
+          <div id="fullUserName">Гость</div>
+          <div id="fullUserRole" style="font-size:13px;opacity:0.9">Неавторизован</div>
         </div>
+      </div>
+      <button class="switch-btn" onclick="switchVersion('lite')">Упрощённая версия</button>
+      <button class="switch-btn" id="openStart" onclick="openStart()">↺ Выбор версии</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- login card -->
+    <div id="fullLoginCard" class="card" style="max-width:480px;margin:10px auto;">
+      <h2>Вход в систему</h2>
+      <div class="form-group">
+        <label>Логин</label>
+        <input id="fullLogin" type="text" placeholder="Логин (например student)">
+      </div>
+      <div class="form-group">
+        <label>Пароль</label>
+        <input id="fullPassword" type="password" placeholder="Пароль">
+      </div>
+      <div class="form-group">
+        <label>Тип пользователя</label>
+        <select id="fullUserType">
+          <option value="student">Ученик</option>
+          <option value="teacher">Учитель</option>
+          <option value="admin">Администратор</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn-action" onclick="fullLogin()">Войти</button>
+        <button class="btn-action" style="background:#7f8c8d" onclick="demoLogin()">Демо (student)</button>
+      </div>
+      <div id="fullLoginMsg" style="margin-top:10px;color:#c0392b"></div>
     </div>
 
-    <!-- Модальные окна -->
-    <div id="addUserModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> Добавить пользователя</h3>
-                <span class="close" onclick="closeModal('addUserModal')">&times;</span>
-            </div>
-            <div class="form-group">
-                <label>Тип пользователя:</label>
-                <select id="userType">
-                    <option value="student">Ученик</option>
-                    <option value="teacher">Учитель</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>ФИО:</label>
-                <input type="text" id="newUserFullname" placeholder="Иванов Иван Иванович">
-            </div>
-            <div class="form-group">
-                <label>Логин:</label>
-                <input type="text" id="newUsername" placeholder="Придумайте логин">
-            </div>
-            <div class="form-group">
-                <label>Пароль:</label>
-                <input type="password" id="newUserPassword" placeholder="Придумайте пароль">
-            </div>
-            <div class="form-group">
-                <label>Класс (для учеников):</label>
-                <select id="newUserClass">
-                    <option value="5A">5А класс</option>
-                    <option value="5B">5Б класс</option>
-                    <option value="6A">6А класс</option>
-                    <option value="6B">6Б класс</option>
-                </select>
-            </div>
-            <button class="login-btn" onclick="addNewUser()">Добавить пользователя</button>
-            
-            <div class="user-list" id="usersList">
-                <!-- Список пользователей будет здесь -->
-            </div>
+    <!-- навигация -->
+    <div id="fullMain" style="display:none">
+      <div class="nav-tabs" id="fullTabs">
+        <div class="tab active" data-tab="schedule" onclick="fullSwitchTab(event)">Расписание</div>
+        <div class="tab" data-tab="homework" onclick="fullSwitchTab(event)">Домашние задания</div>
+        <div class="tab" data-tab="grades" onclick="fullSwitchTab(event)">Оценки</div>
+        <div class="tab" data-tab="students" onclick="fullSwitchTab(event)">Ученики</div>
+        <div class="tab" data-tab="teachers" onclick="fullSwitchTab(event)">Учителя</div>
+      </div>
+
+      <!-- Расписание -->
+      <div id="full_schedule_tab" class="card tab-content active">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Расписание на неделю</h2>
+          <div>
+            <button class="btn-action" onclick="openModal('addScheduleModal')">Добавить урок</button>
+            <button class="btn-action" style="background:#95a5a6" onclick="exportData()">Экспорт</button>
+          </div>
         </div>
+        <div id="fullScheduleContent" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Домашние задания -->
+      <div id="full_homework_tab" class="card tab-content" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Домашние задания</h2>
+          <button class="btn-action" onclick="openModal('addHomeworkModal')">Добавить задание</button>
+        </div>
+        <div id="fullHomeworkContent" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Оценки -->
+      <div id="full_grades_tab" class="card tab-content" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Оценки</h2>
+          <button class="btn-action" onclick="openModal('addGradeModal')">Добавить оценку</button>
+        </div>
+        <div id="fullGradesContent" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Ученики -->
+      <div id="full_students_tab" class="card tab-content" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Ученики</h2>
+          <button class="btn-action" onclick="openModal('addStudentModal')">Добавить ученика</button>
+        </div>
+        <div id="fullStudentsContent" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Учителя -->
+      <div id="full_teachers_tab" class="card tab-content" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2>Учителя</h2>
+          <button class="btn-action" onclick="openModal('addTeacherModal')">Добавить учителя</button>
+        </div>
+        <div id="fullTeachersContent" style="margin-top:12px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================= END: Full app ================= -->
+
+<!-- ================= START: Lite app ================= -->
+<div id="liteApp" class="app lite" aria-hidden="true">
+  <header class="app-header">
+    <div class="logo">Дневник.ру — Упрощённая</div>
+    <div class="controls">
+      <button class="switch-btn" onclick="switchVersion('full')">Полная версия</button>
+      <button class="switch-btn" onclick="openStart()">↺ Выбор версии</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Упрощённая авторизация (простой ввод) -->
+    <div class="card" id="liteLoginCard" style="max-width:720px;margin:8px auto">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="liteLogin" placeholder="Логин" style="padding:8px;border:1px solid #ddd;border-radius:6px">
+        <input id="litePassword" placeholder="Пароль" type="password" style="padding:8px;border:1px solid #ddd;border-radius:6px">
+        <select id="liteUserType" style="padding:8px;border:1px solid #ddd;border-radius:6px">
+          <option value="student">Ученик</option><option value="teacher">Учитель</option><option value="admin">Админ</option>
+        </select>
+        <button class="btn-action" onclick="liteLogin()">Войти</button>
+        <button class="btn-action" style="background:#95a5a6" onclick="demoLogin('lite')">Демо</button>
+      </div>
+      <div id="liteLoginMsg" class="smallmuted" style="margin-top:8px"></div>
     </div>
 
-    <div id="scheduleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-calendar-alt"></i> Управление расписанием</h3>
-                <span class="close" onclick="closeModal('scheduleModal')">&times;</span>
-            </div>
-            <div class="form-group">
-                <label>Класс:</label>
-                <select id="scheduleClass">
-                    <option value="5A">5А класс</option>
-                    <option value="5B">5Б класс</option>
-                    <option value="6A">6А класс</option>
-                    <option value="6B">6Б класс</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>День недели:</label>
-                <select id="scheduleDay">
-                    <option value="monday">Понедельник</option>
-                    <option value="tuesday">Вторник</option>
-                    <option value="wednesday">Среда</option>
-                    <option value="thursday">Четверг</option>
-                    <option value="friday">Пятница</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Предмет:</label>
-                <input type="text" id="scheduleLesson" placeholder="Название предмета">
-            </div>
-            <div class="form-group">
-                <label>Время:</label>
-                <input type="text" id="scheduleTime" placeholder="Например: 8:30-9:15">
-            </div>
-            <button class="login-btn" onclick="addSchedule()">Добавить урок</button>
-            
-            <div class="user-list" id="scheduleList">
-                <!-- Список уроков будет здесь -->
-            </div>
-        </div>
+    <!-- Контент lite -->
+    <div id="liteMain" style="display:none">
+      <div class="card">
+        <h2>Расписание (лениво)</h2>
+        <div id="liteSchedule"></div>
+      </div>
+
+      <div class="card">
+        <h2>Домашние задания</h2>
+        <table>
+          <thead><tr><th>Предмет</th><th>Срок</th><th>Описание</th></tr></thead>
+          <tbody id="liteHomework"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Оценки</h2>
+        <table>
+          <thead><tr><th>Ученик</th><th>Предмет</th><th>Оценки</th></tr></thead>
+          <tbody id="liteGrades"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Учеников — <span id="liteStudentsCount">0</span></h2>
+        <div id="liteStudentsList" class="smallmuted"></div>
+      </div>
+
+      <div class="card">
+        <h2>Учителей</h2>
+        <div id="liteTeachersList" class="smallmuted"></div>
+      </div>
     </div>
+  </div>
+</div>
+<!-- ================= END: Lite app ================= -->
 
-    <div id="homeworkModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-tasks"></i> Управление домашними заданиями</h3>
-                <span class="close" onclick="closeModal('homeworkModal')">&times;</span>
-            </div>
-            <div class="form-group">
-                <label>Класс:</label>
-                <select id="hwClass">
-                    <option value="5A">5А класс</option>
-                    <option value="5B">5Б класс</option>
-                    <option value="6A">6А класс</option>
-                    <option value="6B">6Б класс</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Предмет:</label>
-                <input type="text" id="hwSubject" placeholder="Название предмета">
-            </div>
-            <div class="form-group">
-                <label>Задание:</label>
-                <textarea id="hwTask" placeholder="Текст задания" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Срок сдачи:</label>
-                <input type="date" id="hwDeadline">
-            </div>
-            <button class="login-btn" onclick="addHomework()">Добавить задание</button>
-            
-            <div class="user-list" id="homeworkList">
-                <!-- Список ДЗ будет здесь -->
-            </div>
-        </div>
+<!-- ================= START: Modals (shared) ================= -->
+<!-- Add Schedule -->
+<div id="addScheduleModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Добавить / Редактировать урок</h3>
+      <button onclick="closeModal('addScheduleModal')">✕</button>
     </div>
+    <div>
+      <label>День недели</label>
+      <select id="ms_day">
+        <option value="monday">Понедельник</option>
+        <option value="tuesday">Вторник</option>
+        <option value="wednesday">Среда</option>
+        <option value="thursday">Четверг</option>
+        <option value="friday">Пятница</option>
+        <option value="saturday">Суббота</option>
+      </select>
 
-    <div id="gradesModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-star"></i> Управление оценками</h3>
-                <span class="close" onclick="closeModal('gradesModal')">&times;</span>
-            </div>
-            <div class="form-group">
-                <label>Ученик:</label>
-                <select id="gradeStudent">
-                    <!-- Список учеников будет заполнен динамически -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Предмет:</label>
-                <input type="text" id="gradeSubject" placeholder="Название предмета">
-            </div>
-            <div class="form-group">
-                <label>Оценка:</label>
-                <select id="gradeValue">
-                    <option value="5">5 (Отлично)</option>
-                    <option value="4">4 (Хорошо)</option>
-                    <option value="3">3 (Удовлетворительно)</option>
-                    <option value="2">2 (Неудовлетворительно)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Дата:</label>
-                <input type="date" id="gradeDate">
-            </div>
-            <button class="login-btn" onclick="addGrade()">Добавить оценку</button>
-            
-            <div class="user-list" id="gradesList">
-                <!-- Список оценок будет здесь -->
-            </div>
-        </div>
+      <label>Время</label>
+      <input id="ms_time" placeholder="08:30-09:15">
+
+      <label>Предмет</label>
+      <input id="ms_subject">
+
+      <label>Кабинет</label>
+      <input id="ms_room">
+
+      <label>Учитель</label>
+      <input id="ms_teacher">
+
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-action" onclick="saveScheduleModal()">Сохранить</button>
+        <button class="btn-danger" onclick="closeModal('addScheduleModal')">Отмена</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        // Данные пользователей Дневник.ру
-        let dnevnikUsers = {
-            "user": {
-                password: "123456789qq",
-                fullname: "Зазулина Любовь",
-                role: "teacher",
-                avatar: "https://ui-avatars.com/api/?name=Любовь+Зазулина&background=ff6b6b&color=fff",
-                currentClass: "5A"
-            },
-            "balabaev": {
-                password: "password123",
-                fullname: "Балабаев П.",
-                role: "student",
-                avatar: "https://ui-avatars.com/api/?name=Балабаев+П&background=74b9ff&color=fff",
-                currentClass: "5B"
-            },
-            "ermakov": {
-                password: "password123",
-                fullname: "Ермаков А.",
-                role: "student",
-                avatar: "https://ui-avatars.com/api/?name=Ермаков+А&background=74b9ff&color=fff",
-                currentClass: "5B"
-            }
-        };
+<!-- Add Homework -->
+<div id="addHomeworkModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Добавить домашнее задание</h3>
+      <button onclick="closeModal('addHomeworkModal')">✕</button>
+    </div>
+    <div>
+      <label>Предмет</label>
+      <select id="mh_subject">
+        <option value="Математика">Математика</option>
+        <option value="Русский язык">Русский язык</option>
+        <option value="Физика">Физика</option>
+        <option value="История">История</option>
+      </select>
 
-        let schedule = {
-            "5A": {
-                "monday": [
-                    { time: "8:30-9:15", lesson: "Математика" },
-                    { time: "9:25-10:10", lesson: "Русский язык" }
-                ],
-                "tuesday": [
-                    { time: "8:30-9:15", lesson: "Литература" },
-                    { time: "9:25-10:10", lesson: "История" }
-                ]
-            },
-            "5B": {
-                "monday": [
-                    { time: "8:30-9:15", lesson: "Математика" },
-                    { time: "9:25-10:10", lesson: "Русский язык" }
-                ]
-            }
-        };
+      <label>Срок</label>
+      <input id="mh_deadline" type="date">
 
-        let homework = {
-            "5A": [
-                { subject: "Математика", task: "№125-128 (с. 45-46)", deadline: "2023-09-20" },
-                { subject: "Русский язык", task: "Упражнение 56", deadline: "2023-09-21" }
-            ],
-            "5B": [
-                { subject: "Математика", task: "№130-132 (с. 48-49)", deadline: "2023-09-20" }
-            ]
-        };
+      <label>Описание</label>
+      <textarea id="mh_text" rows="4"></textarea>
 
-        let grades = {
-            "5A": {
-                "student1": [
-                    { subject: "Математика", value: 5, date: "2023-09-15" },
-                    { subject: "Русский язык", value: 4, date: "2023-09-16" }
-                ]
-            },
-            "5B": {
-                "balabaev": [
-                    { subject: "Математика", value: 5, date: "2023-09-15" },
-                    { subject: "История", value: 4, date: "2023-09-16" }
-                ],
-                "ermakov": [
-                    { subject: "Математика", value: 4, date: "2023-09-15" },
-                    { subject: "Русский язык", value: 5, date: "2023-09-16" }
-                ]
-            }
-        };
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-action" onclick="saveHomeworkModal()">Сохранить</button>
+        <button class="btn-danger" onclick="closeModal('addHomeworkModal')">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        let currentUser = null;
+<!-- Add Grade -->
+<div id="addGradeModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Добавить оценку</h3>
+      <button onclick="closeModal('addGradeModal')">✕</button>
+    </div>
+    <div>
+      <label>Ученик</label>
+      <select id="mg_student"></select>
 
-        // Функция входа в Дневник.ру
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('loginError');
-            
-            if (dnevnikUsers[username] && dnevnikUsers[username].password === password) {
-                currentUser = {
-                    username: username,
-                    ...dnevnikUsers[username]
-                };
-                
-                // Переходим на главную страницу
-                showMainPage();
-                errorElement.textContent = '';
-                showNotification('Вход выполнен успешно!');
-            } else {
-                errorElement.textContent = 'Неверный логин или пароль';
-                showNotification('Ошибка входа! Проверьте логин и пароль', true);
-            }
-        }
+      <label>Предмет</label>
+      <select id="mg_subject">
+        <option value="Математика">Математика</option>
+        <option value="Русский язык">Русский язык</option>
+        <option value="Физика">Физика</option>
+      </select>
 
-        // Показать главную страницу
-        function showMainPage() {
-            document.getElementById('loginContainer').classList.add('hidden');
-            document.getElementById('mainPage').classList.remove('hidden');
-            
-            // Заполняем данные пользователя
-            document.getElementById('mainUsername').textContent = `Добро пожаловать, ${currentUser.fullname}!`;
-            document.getElementById('mainRole').textContent = currentUser.role === 'teacher' ? 'Учитель' : 'Ученик';
-            document.getElementById('mainAvatar').src = currentUser.avatar;
-            
-            // Показываем/скрываем панель управления в зависимости от роли
-            if (currentUser.role === 'teacher') {
-                document.getElementById('teacherControls').classList.remove('hidden');
-                loadUsersList();
-                loadScheduleList();
-                loadHomeworkList();
-                fillStudentsList();
-                loadGradesList();
-            } else {
-                document.getElementById('teacherControls').classList.add('hidden');
-                loadStudentGrades();
-                loadStudentHomework();
-                loadStudentSchedule();
-                calculateStudentStats();
-            }
-        }
+      <label>Оценка</label>
+      <select id="mg_value">
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option>
+      </select>
 
-        // Выход из системы
-        function logout() {
-            currentUser = null;
-            document.getElementById('mainPage').classList.add('hidden');
-            document.getElementById('loginContainer').classList.remove('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            showNotification('Вы вышли из системы');
-        }
+      <label>Дата</label>
+      <input id="mg_date" type="date" value="">
 
-        // Работа с модальными окнами
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-action" onclick="saveGradeModal()">Сохранить</button>
+        <button class="btn-danger" onclick="closeModal('addGradeModal')">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
+<!-- Add Student -->
+<div id="addStudentModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Добавить ученика</h3>
+      <button onclick="closeModal('addStudentModal')">✕</button>
+    </div>
+    <div>
+      <label>ФИО</label>
+      <input id="ms_name">
 
-        // Загрузка оценок ученика
-        function loadStudentGrades() {
-            const gradesContainer = document.getElementById('gradesContainer');
-            gradesContainer.innerHTML = '';
-            
-            if (grades[currentUser.currentClass] && grades[currentUser.currentClass][currentUser.username]) {
-                const userGrades = grades[currentUser.currentClass][currentUser.username];
-                userGrades.forEach(grade => {
-                    const gradeElement = document.createElement('div');
-                    gradeElement.className = `grade grade-${grade.value}`;
-                    gradeElement.textContent = grade.value;
-                    gradeElement.title = `${grade.subject} (${grade.date})`;
-                    gradesContainer.appendChild(gradeElement);
-                });
-            } else {
-                gradesContainer.innerHTML = '<p>Оценок пока нет</p>';
-            }
-        }
+      <label>Класс</label>
+      <input id="ms_class">
 
-        // Загрузка домашних заданий ученика
-        function loadStudentHomework() {
-            const homeworkContent = document.getElementById('homeworkContent');
-            homeworkContent.innerHTML = '';
-            
-            if (homework[currentUser.currentClass]) {
-                homework[currentUser.currentClass].forEach(hw => {
-                    const hwElement = document.createElement('p');
-                    hwElement.innerHTML = `<strong>${hw.subject}:</strong> ${hw.task} (до ${hw.deadline})`;
-                    homeworkContent.appendChild(hwElement);
-                });
-            } else {
-                homeworkContent.innerHTML = '<p>Домашних заданий нет</p>';
-            }
-        }
+      <label>Логин</label>
+      <input id="ms_login">
 
-        // Загрузка расписания ученика
-        function loadStudentSchedule() {
-            const scheduleContent = document.getElementById('scheduleContent');
-            scheduleContent.innerHTML = '';
-            
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-            const dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'];
-            const today = new Date().getDay();
-            const tomorrow = (today % 7) + 1;
-            
-            if (schedule[currentUser.currentClass] && schedule[currentUser.currentClass][days[tomorrow - 1]]) {
-                schedule[currentUser.currentClass][days[tomorrow - 1]].forEach(lesson => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span>${lesson.lesson}</span>
-                        <span>${lesson.time}</span>
-                    `;
-                    scheduleContent.appendChild(li);
-                });
-            } else {
-                scheduleContent.innerHTML = '<li>Расписание на завтра не найдено</li>';
-            }
-        }
+      <label>Пароль</label>
+      <input id="ms_pass">
 
-        // Расчет статистики для ученика
-        function calculateStudentStats() {
-            if (currentUser.role !== 'student') return;
-            
-            if (grades[currentUser.currentClass] && grades[currentUser.currentClass][currentUser.username]) {
-                const userGrades = grades[currentUser.currentClass][currentUser.username];
-                let total = 0;
-                let subjectStats = {};
-                
-                userGrades.forEach(grade => {
-                    total += grade.value;
-                    if (!subjectStats[grade.subject]) {
-                        subjectStats[grade.subject] = { sum: 0, count: 0 };
-                    }
-                    subjectStats[grade.subject].sum += grade.value;
-                    subjectStats[grade.subject].count += 1;
-                });
-                
-                const average = total / userGrades.length;
-                document.getElementById('averageGrade').textContent = average.toFixed(1);
-                
-                // Находим лучший предмет
-                let bestSubject = '';
-                let bestAverage = 0;
-                
-                for (const subject in subjectStats) {
-                    const avg = subjectStats[subject].sum / subjectStats[subject].count;
-                    if (avg > bestAverage) {
-                        bestAverage = avg;
-                        bestSubject = subject;
-                    }
-                }
-                
-                if (bestSubject) {
-                    document.getElementById('bestSubject').textContent = `${bestSubject} (${bestAverage.toFixed(1)})`;
-                }
-            }
-        }
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-action" onclick="saveStudentModal()">Сохранить</button>
+        <button class="btn-danger" onclick="closeModal('addStudentModal')">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-        // Добавление нового пользователя
-        function addNewUser() {
-            const userType = document.getElementById('userType').value;
-            const fullname = document.getElementById('newUserFullname').value;
-            const username = document.getElementById('newUsername').value;
-            const password = document.getElementById('newUserPassword').value;
-            const userClass = document.getElementById('newUserClass').value;
-            
-            if (!fullname || !username || !password) {
-                showNotification('Заполните все поля', true);
-                return;
-            }
-            
-            if (dnevnikUsers[username]) {
-                showNotification('Пользователь с таким логином уже существует', true);
-                return;
-            }
-            
-            dnevnikUsers[username] = {
-                password: password,
-                fullname: fullname,
-                role: userType,
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(fullname)}&background=${userType === 'teacher' ? 'ff6b6b' : '74b9ff'}&color=fff`,
-                currentClass: userType === 'student' ? userClass : '5A'
-            };
-            
-            showNotification(`Пользователь ${fullname} успешно добавлен!`);
-            loadUsersList();
-            fillStudentsList();
-            
-            // Очищаем форму
-            document.getElementById('newUserFullname').value = '';
-            document.getElementById('newUsername').value = '';
-            document.getElementById('newUserPassword').value = '';
-        }
+<!-- Add Teacher -->
+<div id="addTeacherModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Добавить учителя</h3>
+      <button onclick="closeModal('addTeacherModal')">✕</button>
+    </div>
+    <div>
+      <label>ФИО</label>
+      <input id="mt_name">
 
-        // Загрузка списка пользователей
-        function loadUsersList() {
-            const usersList = document.getElementById('usersList');
-            usersList.innerHTML = '';
-            
-            for (const username in dnevnikUsers) {
-                if (username !== 'user') { // Не показываем основного учителя в списке
-                    const user = dnevnikUsers[username];
-                    const userItem = document.createElement('div');
-                    userItem.className = 'user-item';
-                    userItem.innerHTML = `
-                        <div class="user-info">
-                            <img src="${user.avatar}" alt="${user.fullname}" class="user-avatar-small">
-                            <div>
-                                <div>${user.fullname}</div>
-                                <div style="font-size: 12px; color: #666;">${user.role === 'teacher' ? 'Учитель' : 'Ученик'} • ${user.currentClass}</div>
-                            </div>
-                        </div>
-                        <button class="action-btn delete-btn" onclick="deleteUser('${username}')">Удалить</button>
-                    `;
-                    usersList.appendChild(userItem);
-                }
-            }
-        }
+      <label>Предмет</label>
+      <input id="mt_subject">
 
-        // Удаление пользователя
-        function deleteUser(username) {
-            if (confirm(`Вы уверены, что хотите удалить пользователя ${dnevnikUsers[username].fullname}?`)) {
-                delete dnevnikUsers[username];
-                showNotification('Пользователь удален');
-                loadUsersList();
-                fillStudentsList();
-            }
-        }
+      <label>Логин</label>
+      <input id="mt_login">
 
-        // Заполнение списка учеников для выставления оценок
-        function fillStudentsList() {
-            const studentSelect = document.getElementById('gradeStudent');
-            studentSelect.innerHTML = '';
-            
-            for (const username in dnevnikUsers) {
-                if (dnevnikUsers[username].role === 'student') {
-                    const option = document.createElement('option');
-                    option.value = username;
-                    option.textContent = dnevnikUsers[username].fullname;
-                    studentSelect.appendChild(option);
-                }
-            }
-        }
+      <label>Пароль</label>
+      <input id="mt_pass">
 
-        // Добавление урока в расписание
-        function addSchedule() {
-            const className = document.getElementById('scheduleClass').value;
-            const day = document.getElementById('scheduleDay').value;
-            const lesson = document.getElementById('scheduleLesson').value;
-            const time = document.getElementById('scheduleTime').value;
-            
-            if (!lesson || !time) {
-                showNotification('Заполните все поля', true);
-                return;
-            }
-            
-            if (!schedule[className]) {
-                schedule[className] = {};
-            }
-            
-            if (!schedule[className][day]) {
-                schedule[className][day] = [];
-            }
-            
-            schedule[className][day].push({
-                time: time,
-                lesson: lesson
-            });
-            
-            showNotification('Урок добавлен в расписание!');
-            loadScheduleList();
-            
-            // Очищаем форму
-            document.getElementById('scheduleLesson').value = '';
-            document.getElementById('scheduleTime').value = '';
-        }
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn-action" onclick="saveTeacherModal()">Сохранить</button>
+        <button class="btn-danger" onclick="closeModal('addTeacherModal')">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================= END: Modals ================= -->
 
-        // Загрузка списка уроков
-        function loadScheduleList() {
-            const scheduleList = document.getElementById('scheduleList');
-            scheduleList.innerHTML = '';
-            
-            for (const className in schedule) {
-                for (const day in schedule[className]) {
-                    const dayTitle = document.createElement('div');
-                    dayTitle.style.marginTop = '15px';
-                    dayTitle.style.fontWeight = 'bold';
-                    dayTitle.textContent = `${className} - ${getDayName(day)}`;
-                    scheduleList.appendChild(dayTitle);
-                    
-                    schedule[className][day].forEach((lesson, index) => {
-                        const lessonItem = document.createElement('div');
-                        lessonItem.className = 'schedule-item';
-                        lessonItem.innerHTML = `
-                            <div>${lesson.lesson} (${lesson.time})</div>
-                            <div class="lesson-actions">
-                                <button class="action-btn delete-btn" onclick="deleteLesson('${className}', '${day}', ${index})">Удалить</button>
-                            </div>
-                        `;
-                        scheduleList.appendChild(lessonItem);
-                    });
-                }
-            }
-        }
+<!-- ================= START: Скрипты (логика) ================= -->
+<script>
+/*
+  Полный JS: стартовый экран, выбор версии, авторизация, data in localStorage,
+  рендеринг для full и lite, модалки, CRUD (полный набор функций из оригинала)
+*/
 
-        // Удаление урока
-        function deleteLesson(className, day, index) {
-            if (confirm('Вы уверены, что хотите удалить этот урок?')) {
-                schedule[className][day].splice(index, 1);
-                showNotification('Урок удален');
-                loadScheduleList();
-            }
-        }
+/* ------------------ Инициализация данных (как у тебя было) ------------------ */
+const initialData = {
+  users: [
+    { id: 1, login: "student", password: "student123", type: "student", name: "Иван Иванов", class: "8А" },
+    { id: 2, login: "teacher", password: "teacher123", type: "teacher", name: "Петрова А.И.", subject: "Математика" },
+    { id: 3, login: "admin", password: "admin123", type: "admin", name: "Сидоров В.П." }
+  ],
+  schedule: [
+    { id: 1, day: "monday", time: "08:30-09:15", subject: "Математика", room: "205", teacher: "Петрова А.И." },
+    { id: 2, day: "monday", time: "09:25-10:10", subject: "Русский язык", room: "112", teacher: "Иванова М.С." },
+    { id: 3, day: "tuesday", time: "08:30-09:15", subject: "Физика", room: "301", teacher: "Сидоров В.П." }
+  ],
+  homework: [
+    { id: 1, subject: "Математика", assigned: "12.04.2023", deadline: "17.04.2023", description: "Учебник: стр. 145, № 345-348, 350. Решить задачи на применение теоремы Пифагора." },
+    { id: 2, subject: "Русский язык", assigned: "13.04.2023", deadline: "18.04.2023", description: "Учебник: стр. 89-90, упр. 234. Составить предложения с причастными и деепричастными оборотами." }
+  ],
+  grades: [
+    { id: 1, student: "Иван Иванов", subject: "Математика", value: 5, date: "10.04.2023" },
+    { id: 2, student: "Иван Иванов", subject: "Математика", value: 4, date: "12.04.2023" },
+    { id: 3, student: "Иван Иванов", subject: "Русский язык", value: 4, date: "11.04.2023" },
+    { id: 4, student: "Иван Иванов", subject: "Русский язык", value: 3, date: "13.04.2023" }
+  ],
+  students: [
+    { id: 1, name: "Иван Иванов", class: "8А", login: "student1", password: "pass1" },
+    { id: 2, name: "Петрова Мария", class: "8А", login: "student2", password: "pass2" },
+    { id: 3, name: "Сидоров Алексей", class: "8Б", login: "student3", password: "pass3" }
+  ],
+  teachers: [
+    { id: 1, name: "Петрова Анна Ивановна", subject: "Математика", login: "teacher1", password: "pass1" },
+    { id: 2, name: "Иванова Мария Сергеевна", subject: "Русский язык", login: "teacher2", password: "pass2" },
+    { id: 3, name: "Сидоров Василий Петрович", subject: "Физика", login: "teacher3", password: "pass3" }
+  ]
+};
 
-        // Получение названия дня недели
-        function getDayName(day) {
-            const days = {
-                'monday': 'Понедельник',
-                'tuesday': 'Вторник',
-                'wednesday': 'Среда',
-                'thursday': 'Четверг',
-                'friday': 'Пятница'
-            };
-            return days[day] || day;
-        }
+function initializeData(){
+  if(!localStorage.getItem('diaryData')){
+    localStorage.setItem('diaryData', JSON.stringify(initialData));
+  }
+  return JSON.parse(localStorage.getItem('diaryData'));
+}
+function getData(){ return JSON.parse(localStorage.getItem('diaryData')); }
+function saveData(d){ localStorage.setItem('diaryData', JSON.stringify(d)); }
 
-        // Добавление домашнего задания
-        function addHomework() {
-            const className = document.getElementById('hwClass').value;
-            const subject = document.getElementById('hwSubject').value;
-            const task = document.getElementById('hwTask').value;
-            const deadline = document.getElementById('hwDeadline').value;
-            
-            if (!subject || !task) {
-                showNotification('Заполните все поля', true);
-                return;
-            }
-            
-            if (!homework[className]) {
-                homework[className] = [];
-            }
-            
-            homework[className].push({
-                subject: subject,
-                task: task,
-                deadline: deadline
-            });
-            
-            showNotification('Домашнее задание добавлено!');
-            loadHomeworkList();
-            
-            // Очищаем форму
-            document.getElementById('hwSubject').value = '';
-            document.getElementById('hwTask').value = '';
-            document.getElementById('hwDeadline').value = '';
-        }
+let diaryData = initializeData();
+let currentUser = null;
 
-        // Загрузка списка домашних заданий
-        function loadHomeworkList() {
-            const homeworkList = document.getElementById('homeworkList');
-            homeworkList.innerHTML = '';
-            
-            for (const className in homework) {
-                const classTitle = document.createElement('div');
-                classTitle.style.marginTop = '15px';
-                classTitle.style.fontWeight = 'bold';
-                classTitle.textContent = `${className}`;
-                homeworkList.appendChild(classTitle);
-                
-                homework[className].forEach((hw, index) => {
-                    const hwItem = document.createElement('div');
-                    hwItem.className = 'hw-item';
-                    hwItem.innerHTML = `
-                        <div>${hw.subject}: ${hw.task} (до ${hw.deadline})</div>
-                        <div class="lesson-actions">
-                            <button class="action-btn delete-btn" onclick="deleteHomework('${className}', ${index})">Удалить</button>
-                        </div>
-                    `;
-                    homeworkList.appendChild(hwItem);
-                });
-            }
-        }
+/* ------------------ Стартовый экран: совет для 2G ------------------ */
+(function recommendVersion(){
+  const rec = document.getElementById('recommendText');
+  let recommended = '';
+  // navigator.connection may not be supported everywhere
+  try {
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if(conn && conn.effectiveType){
+      if(conn.effectiveType.includes('2g')) recommended = 'Обнаружена медленная сеть (2G). Рекомендуем упрощённую версию.';
+      else if(conn.effectiveType.includes('3g')) recommended = 'Сеть 3G — можно выбрать любую версию, но упрощённая может быть быстрее.';
+    }
+  } catch(e){}
+  if(recommended) rec.textContent = recommended;
+})();
 
-        // Удаление домашнего задания
-        function deleteHomework(className, index) {
-            if (confirm('Вы уверены, что хотите удалить это домашнее задание?')) {
-                homework[className].splice(index, 1);
-                showNotification('Домашнее задание удалено');
-                loadHomeworkList();
-            }
-        }
+/* ------------------ Навигация и показ приложений ------------------ */
+function startApp(mode){
+  document.getElementById('startScreen').style.display = 'none';
+  if(mode === 'full'){
+    showFull();
+  } else {
+    showLite();
+  }
+}
+function openStart(){
+  // вернуться на выбор версии
+  document.getElementById('startScreen').style.display = 'flex';
+  hideAllApps();
+}
+function hideAllApps(){
+  document.getElementById('fullApp').style.display = 'none';
+  document.getElementById('liteApp').style.display = 'none';
+}
+function switchVersion(mode){
+  // переключиться между версиями без потери данных/состояния
+  if(mode === 'full') showFull();
+  else showLite();
+}
 
-        // Добавление оценки
-        function addGrade() {
-            const student = document.getElementById('gradeStudent').value;
-            const subject = document.getElementById('gradeSubject').value;
-            const value = document.getElementById('gradeValue').value;
-            const date = document.getElementById('gradeDate').value;
-            
-            if (!student || !subject || !value) {
-                showNotification('Заполните все поля', true);
-                return;
-            }
-            
-            const userClass = dnevnikUsers[student].currentClass;
-            
-            if (!grades[userClass]) {
-                grades[userClass] = {};
-            }
-            
-            if (!grades[userClass][student]) {
-                grades[userClass][student] = [];
-            }
-            
-            grades[userClass][student].push({
-                subject: subject,
-                value: parseInt(value),
-                date: date
-            });
-            
-            showNotification('Оценка добавлена!');
-            loadGradesList();
-            
-            // Очищаем форму
-            document.getElementById('gradeSubject').value = '';
-            document.getElementById('gradeDate').value = new Date().toISOString().split('T')[0];
-        }
+/* ------------------ Show Full ------------------ */
+function showFull(){
+  hideAllApps();
+  document.getElementById('fullApp').style.display = 'block';
+  document.getElementById('fullApp').setAttribute('aria-hidden','false');
+  // show login or main
+  updateFullUserDisplay();
+  if(currentUser) {
+    document.getElementById('fullLoginCard').style.display = 'none';
+    document.getElementById('fullMain').style.display = 'block';
+    loadFullAll();
+  } else {
+    document.getElementById('fullLoginCard').style.display = 'block';
+    document.getElementById('fullMain').style.display = 'none';
+  }
+}
 
-        // Загрузка списка оценок
-        function loadGradesList() {
-            const gradesList = document.getElementById('gradesList');
-            gradesList.innerHTML = '';
-            
-            for (const className in grades) {
-                for (const student in grades[className]) {
-                    const studentTitle = document.createElement('div');
-                    studentTitle.style.marginTop = '15px';
-                    studentTitle.style.fontWeight = 'bold';
-                    studentTitle.textContent = `${dnevnikUsers[student].fullname} (${className})`;
-                    gradesList.appendChild(studentTitle);
-                    
-                    grades[className][student].forEach((grade, index) => {
-                        const gradeItem = document.createElement('div');
-                        gradeItem.className = 'user-item';
-                        gradeItem.innerHTML = `
-                            <div>${grade.subject}: <span class="grade grade-${grade.value}" style="display: inline-flex;">${grade.value}</span> (${grade.date})</div>
-                            <div class="lesson-actions">
-                                <button class="action-btn delete-btn" onclick="deleteGrade('${className}', '${student}', ${index})">Удалить</button>
-                            </div>
-                        `;
-                        gradesList.appendChild(gradeItem);
-                    });
-                }
-            }
-        }
+/* ------------------ Show Lite ------------------ */
+function showLite(){
+  hideAllApps();
+  document.getElementById('liteApp').style.display = 'block';
+  document.getElementById('liteApp').setAttribute('aria-hidden','false');
+  updateLiteUserDisplay();
+  if(currentUser) {
+    document.getElementById('liteMain').style.display = 'block';
+    loadLiteAll();
+    document.getElementById('liteLoginCard').style.display = 'none';
+  } else {
+    document.getElementById('liteMain').style.display = 'none';
+    document.getElementById('liteLoginCard').style.display = 'block';
+  }
+}
 
-        // Удаление оценки
-        function deleteGrade(className, student, index) {
-            if (confirm('Вы уверены, что хотите удалить эту оценку?')) {
-                grades[className][student].splice(index, 1);
-                showNotification('Оценка удалена');
-                loadGradesList();
-            }
-        }
+/* ------------------ Авторизация (full & lite) ------------------ */
+function fullLogin(){
+  const u = document.getElementById('fullLogin').value.trim();
+  const p = document.getElementById('fullPassword').value;
+  const type = document.getElementById('fullUserType').value;
+  const found = diaryData.users.find(x => x.login === u && x.password === p && x.type === type);
+  if(found){
+    currentUser = found;
+    document.getElementById('fullLoginMsg').textContent = '';
+    updateFullUserDisplay();
+    // show main
+    document.getElementById('fullLoginCard').style.display = 'none';
+    document.getElementById('fullMain').style.display = 'block';
+    loadFullAll();
+    // also update lite view
+    updateLiteUserDisplay();
+  } else {
+    document.getElementById('fullLoginMsg').textContent = 'Неверный логин/пароль/тип';
+  }
+}
+function liteLogin(){
+  const u = document.getElementById('liteLogin').value.trim();
+  const p = document.getElementById('litePassword').value;
+  const type = document.getElementById('liteUserType').value;
+  const found = diaryData.users.find(x => x.login === u && x.password === p && x.type === type);
+  if(found){
+    currentUser = found;
+    document.getElementById('liteLoginMsg').textContent = '';
+    updateLiteUserDisplay();
+    document.getElementById('liteLoginCard').style.display = 'none';
+    document.getElementById('liteMain').style.display = 'block';
+    loadLiteAll();
+    // also update full
+    updateFullUserDisplay();
+  } else {
+    document.getElementById('liteLoginMsg').textContent = 'Неверный логин/пароль/тип';
+  }
+}
+function demoLogin(target){
+  // quick demo: login as default student (from initialData)
+  currentUser = diaryData.users.find(u => u.type === 'student') || diaryData.users[0];
+  updateFullUserDisplay();
+  updateLiteUserDisplay();
+  if(target === 'lite') {
+    document.getElementById('liteLoginCard').style.display = 'none';
+    document.getElementById('liteMain').style.display = 'block';
+    loadLiteAll();
+    showLite();
+  } else {
+    document.getElementById('fullLoginCard').style.display = 'none';
+    document.getElementById('fullMain').style.display = 'block';
+    loadFullAll();
+    showFull();
+  }
+}
+function updateFullUserDisplay(){
+  if(currentUser){
+    document.getElementById('fullUserName').textContent = currentUser.name || currentUser.login;
+    let role = currentUser.type === 'student' ? `Ученик ${currentUser.class || ''}` : (currentUser.type === 'teacher' ? `Учитель ${currentUser.subject || ''}` : 'Администратор');
+    document.getElementById('fullUserRole').textContent = role;
+    document.getElementById('fullAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name || currentUser.login)}&background=3498db&color=fff`;
+  } else {
+    document.getElementById('fullUserName').textContent = 'Гость';
+    document.getElementById('fullUserRole').textContent = 'Неавторизован';
+    document.getElementById('fullAvatar').src = `https://ui-avatars.com/api/?name=Guest&background=777&color=fff`;
+  }
+}
+function updateLiteUserDisplay(){
+  // lightweight: show small hint in lite login area
+  const msg = document.getElementById('liteLoginMsg');
+  if(currentUser) msg.textContent = `Вошёл: ${currentUser.name || currentUser.login} (${currentUser.type})`;
+  else msg.textContent = 'Вы не вошли. Введите логин и пароль.';
+}
 
-        // Показать уведомление
-        function showNotification(message, isError = false) {
-            // Удаляем предыдущее уведомление, если есть
-            const existingNotification = document.querySelector('.notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${isError ? 'error' : ''}`;
-            notification.innerHTML = `
-                <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-                ${message}
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Автоматическое скрытие уведомления через 3 секунды
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
+/* ------------------ Full tabs switching ------------------ */
+function fullSwitchTab(e){
+  const clicked = e.currentTarget;
+  // tabs visuals
+  document.querySelectorAll('#fullTabs .tab').forEach(t => t.classList.remove('active'));
+  clicked.classList.add('active');
+  // change content
+  const tabName = clicked.getAttribute('data-tab');
+  ['schedule','homework','grades','students','teachers'].forEach(t => {
+    const el = document.getElementById(`full_${t}_tab`);
+    if(el) el.style.display = (t === tabName ? 'block' : 'none');
+  });
+}
 
-        // Инициализация даты в форме оценок
-        window.onload = function() {
-            document.getElementById('gradeDate').value = new Date().toISOString().split('T')[0];
-        }
-    </script>
+/* ------------------ CRUD: Schedule ------------------ */
+function loadScheduleForFull(){
+  const scheduleContent = document.getElementById('fullScheduleContent');
+  scheduleContent.innerHTML = '';
+  const days = { monday:'Понедельник', tuesday:'Вторник', wednesday:'Среда', thursday:'Четверг', friday:'Пятница', saturday:'Суббота' };
+  Object.keys(days).forEach(dayKey => {
+    const dayLessons = diaryData.schedule.filter(l => l.day === dayKey);
+    if(dayLessons.length === 0) return;
+    const dayWrap = document.createElement('div');
+    dayWrap.innerHTML = `<div style="font-weight:700;margin-bottom:8px;color:#2b3a4a">${days[dayKey]}</div>`;
+    const table = document.createElement('table');
+    table.innerHTML = `<thead><tr><th>Время</th><th>Предмет</th><th>Кабинет</th><th>Учитель</th>${currentUser && currentUser.type !== 'student' ? '<th>Действия</th>' : ''}</tr></thead>`;
+    const tbody = document.createElement('tbody');
+    dayLessons.forEach(lesson => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${lesson.time}</td><td>${lesson.subject}</td><td>${lesson.room}</td><td>${lesson.teacher}</td>`;
+      if(currentUser && currentUser.type !== 'student'){
+        const td = document.createElement('td');
+        td.innerHTML = `<button class="btn-action" onclick="editSchedule(${lesson.id})" style="margin-right:6px">✎</button><button class="btn-danger" onclick="deleteSchedule(${lesson.id})">🗑️</button>`;
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    dayWrap.appendChild(table);
+    scheduleContent.appendChild(dayWrap);
+  });
+}
+function openAddScheduleModal(){ openModal('addScheduleModal'); clearScheduleModal(); }
+function clearScheduleModal(){
+  document.getElementById('ms_day').value = 'monday';
+  document.getElementById('ms_time').value = '';
+  document.getElementById('ms_subject').value = '';
+  document.getElementById('ms_room').value = '';
+  document.getElementById('ms_teacher').value = '';
+  document.getElementById('addScheduleModal').dataset.editId = '';
+}
+function saveScheduleModal(){
+  const day = document.getElementById('ms_day').value;
+  const time = document.getElementById('ms_time').value.trim();
+  const subject = document.getElementById('ms_subject').value.trim();
+  const room = document.getElementById('ms_room').value.trim();
+  const teacher = document.getElementById('ms_teacher').value.trim();
+  if(!time || !subject || !room || !teacher){ alert('Заполните все поля'); return; }
+  const editId = document.getElementById('addScheduleModal').dataset.editId;
+  if(editId){
+    diaryData.schedule = diaryData.schedule.map(s => s.id == editId ? {...s, day, time, subject, room, teacher} : s);
+  } else {
+    const nid = diaryData.schedule.length ? Math.max(...diaryData.schedule.map(s => s.id)) + 1 : 1;
+    diaryData.schedule.push({id: nid, day, time, subject, room, teacher});
+  }
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+  closeModal('addScheduleModal');
+}
+function editSchedule(id){
+  const lesson = diaryData.schedule.find(l => l.id === id);
+  if(!lesson) return;
+  document.getElementById('ms_day').value = lesson.day;
+  document.getElementById('ms_time').value = lesson.time;
+  document.getElementById('ms_subject').value = lesson.subject;
+  document.getElementById('ms_room').value = lesson.room;
+  document.getElementById('ms_teacher').value = lesson.teacher;
+  document.getElementById('addScheduleModal').dataset.editId = id;
+  openModal('addScheduleModal');
+}
+function deleteSchedule(id){
+  if(!confirm('Удалить урок?')) return;
+  diaryData.schedule = diaryData.schedule.filter(s => s.id !== id);
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+}
+
+/* ------------------ CRUD: Homework ------------------ */
+function loadHomeworkForFull(){
+  const hw = document.getElementById('fullHomeworkContent');
+  hw.innerHTML = '';
+  if(diaryData.homework.length === 0){ hw.innerHTML = '<p>Домашних заданий нет</p>'; return; }
+  diaryData.homework.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'homework-item';
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:start">
+      <div><b>${h.subject}</b><div class="homework-date">Задано: ${h.assigned} | Срок: ${h.deadline}</div></div>
+      <div style="text-align:right">${currentUser && currentUser.type !== 'student' ? `<button class="btn-action" onclick="editHomework(${h.id})">✎</button> <button class="btn-danger" onclick="deleteHomework(${h.id})">🗑</button>` : ''}</div>
+    </div>
+    <div style="margin-top:8px">${h.description}</div>`;
+    hw.appendChild(div);
+  });
+}
+function saveHomeworkModal(){
+  const subject = document.getElementById('mh_subject').value;
+  const deadline = document.getElementById('mh_deadline').value;
+  const text = document.getElementById('mh_text').value.trim();
+  if(!subject || !deadline || !text){ alert('Заполните все поля'); return; }
+  const newId = diaryData.homework.length ? Math.max(...diaryData.homework.map(h=>h.id))+1 : 1;
+  const assigned = new Date().toLocaleDateString('ru-RU');
+  diaryData.homework.push({id:newId, subject, assigned, deadline: formatDateForDisplay(deadline), description: text});
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+  closeModal('addHomeworkModal');
+}
+function editHomework(id){
+  const h = diaryData.homework.find(x => x.id === id);
+  if(!h) return;
+  // prefill
+  document.getElementById('mh_subject').value = h.subject;
+  // convert dd.mm.yyyy to yyyy-mm-dd if needed
+  const dParts = h.deadline.split('.');
+  const dd = dParts.length === 3 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : '';
+  document.getElementById('mh_deadline').value = dd;
+  document.getElementById('mh_text').value = h.description;
+  // remove old on save by replacing function temporarily (simpler approach: delete first)
+  // we'll delete when saving: mark edit id
+  document.getElementById('addHomeworkModal').dataset.editId = id;
+  openModal('addHomeworkModal');
+}
+function deleteHomework(id){
+  if(!confirm('Удалить задание?')) return;
+  diaryData.homework = diaryData.homework.filter(h => h.id !== id);
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+}
+
+/* ------------------ CRUD: Grades ------------------ */
+function loadGradesForFull(){
+  const el = document.getElementById('fullGradesContent');
+  el.innerHTML = '';
+  let gradesToShow = diaryData.grades;
+  if(currentUser && currentUser.type === 'student') gradesToShow = diaryData.grades.filter(g => g.student === currentUser.name);
+  if(gradesToShow.length === 0){ el.innerHTML = '<p>Оценок нет</p>'; return; }
+  // group by subject
+  const bySub = {};
+  gradesToShow.forEach(g => { bySub[g.subject] = bySub[g.subject] || []; bySub[g.subject].push(g); });
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr><th>Предмет</th><th>Оценки</th><th>Средний</th>${currentUser && currentUser.type !== 'student' ? '<th>Действия</th>' : ''}</tr></thead>`;
+  const tbody = document.createElement('tbody');
+  Object.keys(bySub).forEach(sub => {
+    const arr = bySub[sub];
+    const vals = arr.map(x => parseInt(x.value));
+    const avg = (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${sub}</td><td>${arr.map(g=>`<span class="grade ${g.value==5?'excellent':g.value==4?'good':g.value==3?'satisfactory':'bad'}">${g.value}</span>`).join(' ')}</td><td>${avg}</td>`;
+    if(currentUser && currentUser.type !== 'student'){
+      const td = document.createElement('td');
+      td.innerHTML = `<button class="btn-action" onclick="editGrade(${arr[0].id})">✎</button> <button class="btn-danger" onclick="deleteGrade(${arr[0].id})">🗑</button>`;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  el.appendChild(table);
+}
+function saveGradeModal(){
+  const sid = parseInt(document.getElementById('mg_student').value);
+  const student = diaryData.students.find(s => s.id === sid);
+  const subject = document.getElementById('mg_subject').value;
+  const value = parseInt(document.getElementById('mg_value').value);
+  const date = document.getElementById('mg_date').value;
+  if(!student || !subject || !value || !date){ alert('Заполните все поля'); return; }
+  const did = diaryData.grades.length ? Math.max(...diaryData.grades.map(g=>g.id))+1 : 1;
+  diaryData.grades.push({id:did, student:student.name, subject, value, date: formatDateForDisplay(date)});
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+  closeModal('addGradeModal');
+}
+function editGrade(id){ alert('Редактирование оценки пока не реализовано (можно удалить и добавить новую).'); }
+function deleteGrade(id){
+  if(!confirm('Удалить оценку?')) return;
+  diaryData.grades = diaryData.grades.filter(g => g.id !== id);
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll();
+}
+
+/* ------------------ Students & Teachers ------------------ */
+function loadStudentsForFull(){
+  const el = document.getElementById('fullStudentsContent');
+  el.innerHTML = '';
+  if(diaryData.students.length === 0){ el.innerHTML = '<p>Учеников нет</p>'; return; }
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr><th>ФИО</th><th>Класс</th><th>Логин</th>${currentUser && currentUser.type==='admin'?'<th>Действия</th>':''}</tr></thead>`;
+  const tbody = document.createElement('tbody');
+  diaryData.students.forEach(s => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${s.name}</td><td>${s.class}</td><td>${s.login}</td>`;
+    if(currentUser && currentUser.type==='admin'){
+      const td = document.createElement('td');
+      td.innerHTML = `<button class="btn-action" onclick="editStudent(${s.id})">✎</button> <button class="btn-danger" onclick="deleteStudent(${s.id})">🗑</button>`;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  el.appendChild(table);
+}
+function saveStudentModal(){
+  const name = document.getElementById('ms_name').value.trim();
+  const cls = document.getElementById('ms_class').value.trim();
+  const login = document.getElementById('ms_login').value.trim();
+  const pass = document.getElementById('ms_pass').value.trim();
+  if(!name||!cls||!login||!pass){ alert('Заполните все поля'); return; }
+  if(diaryData.users.some(u => u.login === login) || diaryData.students.some(s => s.login === login)){ alert('Пользователь с таким логином уже есть'); return; }
+  const nid = diaryData.students.length ? Math.max(...diaryData.students.map(s=>s.id))+1 : 1;
+  diaryData.students.push({id:nid,name, class:cls, login, password: pass});
+  const uid = diaryData.users.length ? Math.max(...diaryData.users.map(u=>u.id))+1 : 1;
+  diaryData.users.push({id:uid, login, password: pass, type:'student', name, class:cls});
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll(); closeModal('addStudentModal');
+}
+function editStudent(id){ alert('Редактирование ученика пока не реализовано.'); }
+function deleteStudent(id){
+  if(!confirm('Удалить ученика?')) return;
+  const s = diaryData.students.find(x=>x.id===id);
+  if(s){
+    diaryData.students = diaryData.students.filter(x=>x.id!==id);
+    diaryData.users = diaryData.users.filter(u=>u.login!==s.login);
+    saveData(diaryData);
+    loadFullAll(); loadLiteAll();
+  }
+}
+
+function loadTeachersForFull(){
+  const el = document.getElementById('fullTeachersContent');
+  el.innerHTML = '';
+  if(diaryData.teachers.length === 0){ el.innerHTML = '<p>Учителей нет</p>'; return; }
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr><th>ФИО</th><th>Предмет</th><th>Логин</th>${currentUser && currentUser.type==='admin'?'<th>Действия</th>':''}</tr></thead>`;
+  const tbody = document.createElement('tbody');
+  diaryData.teachers.forEach(t => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${t.name}</td><td>${t.subject}</td><td>${t.login}</td>`;
+    if(currentUser && currentUser.type==='admin'){
+      const td = document.createElement('td');
+      td.innerHTML = `<button class="btn-action" onclick="editTeacher(${t.id})">✎</button> <button class="btn-danger" onclick="deleteTeacher(${t.id})">🗑</button>`;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  el.appendChild(table);
+}
+function saveTeacherModal(){
+  const name = document.getElementById('mt_name').value.trim();
+  const subject = document.getElementById('mt_subject').value.trim();
+  const login = document.getElementById('mt_login').value.trim();
+  const pass = document.getElementById('mt_pass').value.trim();
+  if(!name||!subject||!login||!pass){ alert('Заполните все поля'); return; }
+  if(diaryData.users.some(u => u.login === login) || diaryData.teachers.some(t => t.login === login)){ alert('Пользователь с таким логином уже есть'); return; }
+  const nid = diaryData.teachers.length ? Math.max(...diaryData.teachers.map(t=>t.id))+1 : 1;
+  diaryData.teachers.push({id:nid,name,subject,login,password:pass});
+  const uid = diaryData.users.length ? Math.max(...diaryData.users.map(u=>u.id))+1 : 1;
+  diaryData.users.push({id:uid,login,password:pass,type:'teacher',name,subject});
+  saveData(diaryData);
+  loadFullAll(); loadLiteAll(); closeModal('addTeacherModal');
+}
+function editTeacher(id){ alert('Редактирование учителя пока не реализовано.'); }
+function deleteTeacher(id){
+  if(!confirm('Удалить учителя?')) return;
+  const t = diaryData.teachers.find(x=>x.id===id);
+  if(t){
+    diaryData.teachers = diaryData.teachers.filter(x=>x.id!==id);
+    diaryData.users = diaryData.users.filter(u=>u.login!==t.login);
+    saveData(diaryData);
+    loadFullAll(); loadLiteAll();
+  }
+}
+
+/* ------------------ Lite loaders (упрощённый рендер) ------------------ */
+function loadLiteAll(){
+  // schedule
+  const days = { monday:'Понедельник', tuesday:'Вторник', wednesday:'Среда', thursday:'Четверг', friday:'Пятница', saturday:'Суббота' };
+  const sc = document.getElementById('liteSchedule');
+  sc.innerHTML = '';
+  Object.keys(days).forEach(dk=>{
+    const lessons = diaryData.schedule.filter(s=>s.day===dk);
+    if(lessons.length){
+      const h = document.createElement('div');
+      h.innerHTML = `<div style="font-weight:700">${days[dk]}</div>`;
+      lessons.forEach(ls => {
+        const p = document.createElement('div');
+        p.textContent = `${ls.time} — ${ls.subject} (${ls.room}) — ${ls.teacher}`;
+        h.appendChild(p);
+      });
+      sc.appendChild(h);
+    }
+  });
+
+  // homework table
+  const hw = document.getElementById('liteHomework'); hw.innerHTML='';
+  diaryData.homework.forEach(h=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${h.subject}</td><td>${h.deadline}</td><td>${h.description}</td>`;
+    hw.appendChild(tr);
+  });
+
+  // grades
+  const lg = document.getElementById('liteGrades'); lg.innerHTML='';
+  diaryData.grades.forEach(g=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${g.student}</td><td>${g.subject}</td><td>${g.value}</td>`;
+    lg.appendChild(tr);
+  });
+
+  // students
+  const ls = document.getElementById('liteStudentsList'); ls.innerHTML='';
+  diaryData.students.forEach(s => {
+    const div = document.createElement('div'); div.textContent = `${s.name} — ${s.class}`;
+    ls.appendChild(div);
+  });
+  document.getElementById('liteStudentsCount').textContent = diaryData.students.length;
+
+  // teachers
+  const lt = document.getElementById('liteTeachersList'); lt.innerHTML='';
+  diaryData.teachers.forEach(t => {
+    const div = document.createElement('div'); div.textContent = `${t.name} — ${t.subject}`;
+    lt.appendChild(div);
+  });
+}
+
+/* ------------------ Full loaders ------------------ */
+function loadFullAll(){
+  diaryData = getData(); // refresh
+  loadScheduleForFull();
+  loadHomeworkForFull();
+  loadGradesForFull();
+  loadStudentsForFull();
+  loadTeachersForFull();
+  populateGradeStudentsSelect();
+}
+
+/* ------------------ Helpers ------------------ */
+function openModal(id){ document.getElementById(id).style.display = 'flex'; document.getElementById(id).setAttribute('aria-hidden','false'); }
+function closeModal(id){ document.getElementById(id).style.display = 'none'; document.getElementById(id).setAttribute('aria-hidden','true'); 
+  // clear editId markers to avoid accidental edits
+  if(document.getElementById(id)) document.getElementById(id).dataset.editId = '';
+}
+function formatDateForDisplay(input){
+  // input YYYY-MM-DD -> DD.MM.YYYY ; if already dd.mm.yyyy -> return as is
+  if(!input) return '';
+  if(input.includes('-')){
+    const [y,m,d] = input.split('-'); return `${d}.${m}.${y}`;
+  }
+  return input;
+}
+
+/* ------------------ misc ------------------ */
+function populateGradeStudentsSelect(){
+  const sel = document.getElementById('mg_student');
+  if(!sel) return;
+  sel.innerHTML = '';
+  diaryData.students.forEach(s => {
+    const opt = document.createElement('option'); opt.value = s.id; opt.textContent = s.name; sel.appendChild(opt);
+  });
+  // set default date to today
+  if(document.getElementById('mg_date')) document.getElementById('mg_date').valueAsDate = new Date();
+}
+
+/* ------------------ Export (simple) ------------------ */
+function exportData(){
+  const dataStr = JSON.stringify(diaryData,null,2);
+  const blob = new Blob([dataStr], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'diary_data.json'; document.body.appendChild(a);
+  a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+/* ------------------ Startup: auto-suggest lite for 2G and show start ------------------ */
+(function startup(){
+  // if connection is 2g — open start with recommendation already shown (user chooses)
+  // otherwise just show start screen
+  document.getElementById('startScreen').style.display = 'flex';
+  hideAllApps();
+})();
+</script>
+<!-- ================= END: Скрипты ================= -->
+
+<!-- Font-awesome icons minimal usage (loaded from CDN) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </body>
 </html>
